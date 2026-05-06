@@ -1,0 +1,176 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  email          String    @unique
+  passwordHash   String
+  name           String
+  gradeLevel     String?
+  school         String?
+  streakDays     Int       @default(0)
+  lastActiveDate DateTime?
+  calendarToken  String?   @unique
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  subjects            Subject[]
+  scheduleItems       ScheduleItem[]
+  chatMessages        ChatMessage[]
+  quizzes             Quiz[]
+  passwordResetTokens PasswordResetToken[]
+  questionReviews     QuestionReview[]
+  flashcardDecks      FlashcardDeck[]
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Subject {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  color     String   @default("#3b82f6")
+  notes     String?
+  createdAt DateTime @default(now())
+
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scheduleItems ScheduleItem[]
+  quizzes       Quiz[]
+  flashcardDecks FlashcardDeck[]
+
+  @@index([userId])
+}
+
+model ScheduleItem {
+  id            String    @id @default(cuid())
+  userId        String
+  subjectId     String?
+  title         String
+  type          String    // "test" | "quiz" | "assignment" | "study"
+  dueDate       DateTime
+  studyStart    DateTime?
+  estMinutes    Int?
+  status        String    @default("pending") // "pending" | "in_progress" | "done"
+  notes         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([subjectId])
+}
+
+model ChatMessage {
+  id         String   @id @default(cuid())
+  userId     String
+  role       String   // "user" | "assistant"
+  content    String
+  imagesJson String?  // JSON array of {data: base64, mediaType: string}
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+}
+
+model Quiz {
+  id          String   @id @default(cuid())
+  userId      String
+  subjectId   String?
+  title       String
+  sourceText  String?  // raw study material the quiz was generated from
+  sourceUrl   String?  // optional outside-source reference
+  createdAt   DateTime @default(now())
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject   Subject?   @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  questions Question[]
+
+  @@index([userId])
+}
+
+model Question {
+  id            String  @id @default(cuid())
+  quizId        String
+  prompt        String
+  type          String  // "multiple_choice" | "short_answer" | "true_false"
+  imageUrl      String?
+  optionsJson   String? // JSON array of options for multiple_choice
+  correctAnswer String
+  explanation   String?
+  orderIndex    Int     @default(0)
+
+  quiz    Quiz             @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  reviews QuestionReview[]
+
+  @@index([quizId])
+}
+
+// Spaced-repetition tracking. One row per (user, question) once they've
+// missed the question; level controls the next review interval.
+model QuestionReview {
+  id             String    @id @default(cuid())
+  userId         String
+  questionId     String
+  level          Int       @default(0) // 0=immediate (1d), 1=3d, 2=7d, 3=14d, 4=30d, 5+=stop
+  nextReviewAt   DateTime
+  lastReviewedAt DateTime?
+  totalAttempts  Int       @default(0)
+  totalCorrect   Int       @default(0)
+  createdAt      DateTime  @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+  @@index([userId, nextReviewAt])
+}
+
+model FlashcardDeck {
+  id          String   @id @default(cuid())
+  userId      String
+  subjectId   String?
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user    User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject Subject?    @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  cards   Flashcard[]
+
+  @@index([userId])
+}
+
+model Flashcard {
+  id         String   @id @default(cuid())
+  deckId     String
+  front      String
+  back       String
+  hint       String?
+  orderIndex Int      @default(0)
+  createdAt  DateTime @default(now())
+
+  deck FlashcardDeck @relation(fields: [deckId], references: [id], onDelete: Cascade)
+
+  @@index([deckId])
+}

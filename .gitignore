@@ -1,0 +1,22 @@
+node_modules
+.next
+out
+dist
+.env
+.env.local
+*.db
+*.db-journal
+.DS_Store
+.vscode
+.idea
+prisma/migrations/dev.db*
+data/
+# Dev tunneling helpers
+study-buddy-qr.png
+tools/
+# Claude Code local config
+.claude/
+# TS incremental build cache
+tsconfig.tsbuildinfo
+
+

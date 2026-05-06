@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* KaTeX styles for rendered math expressions in chat replies */
+@import "katex/dist/katex.min.css";
+
+:root {
+  --foreground: 15 23 42;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  color: rgb(var(--foreground));
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  background:
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(99, 102, 241, 0.18) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(236, 72, 153, 0.14) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(20, 184, 166, 0.12) 0%,
+      transparent 45%
+    ),
+    linear-gradient(135deg, #eef2ff 0%, #f5f3ff 50%, #fdf2f8 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Smooth, lively scaling on every interactive element */
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5
+      text-sm font-medium transition-all duration-200 ease-out
+      hover:scale-[1.04] active:scale-[0.97]
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+      disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply btn bg-gradient-to-br from-brand-500 to-brand-700 text-white
+      shadow-md shadow-brand-500/30 hover:shadow-lg hover:shadow-brand-500/40
+      focus-visible:ring-brand-500;
+  }
+  .btn-secondary {
+    @apply btn bg-white border border-slate-200 text-slate-700 shadow-sm
+      hover:bg-white hover:border-brand-300 hover:text-brand-700
+      focus-visible:ring-brand-500;
+  }
+  .btn-ghost {
+    @apply btn text-slate-600 hover:bg-white/70 focus-visible:ring-brand-500;
+  }
+
+  .input {
+    @apply block w-full rounded-lg border border-slate-200 bg-white/80 px-3.5 py-2.5
+      text-sm shadow-sm placeholder:text-slate-400
+      transition-colors duration-150
+      focus:border-brand-500 focus:bg-white focus:outline-none
+      focus:ring-2 focus:ring-brand-200;
+  }
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-slate-700;
+  }
+
+  .card {
+    @apply rounded-xl border border-slate-200/80 bg-white/85 backdrop-blur-sm
+      shadow-sm transition-shadow duration-200;
+  }
+  .card-interactive {
+    @apply card hover:shadow-md hover:border-brand-200;
+  }
+
+  /* Tab links / nav items get the same lively scale */
+  .nav-link {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm
+      transition-all duration-200 ease-out
+      hover:scale-[1.03] active:scale-[0.98];
+  }
+  .nav-link-idle {
+    @apply nav-link text-slate-700 hover:bg-white hover:text-brand-700
+      hover:shadow-sm;
+  }
+  .nav-link-active {
+    @apply nav-link bg-gradient-to-br from-brand-500 to-brand-600 text-white
+      font-medium shadow-md shadow-brand-500/30;
+  }
+}
+
+/* Anchor and small text-button bumps */
+@layer utilities {
+  .lift {
+    @apply transition-transform duration-200 ease-out
+      hover:scale-[1.04] active:scale-[0.97];
+  }
+}
+
+/* Custom styling for AI chat markdown */
+.chat-prose {
+  font-size: 0.9rem;
+  color: rgb(15 23 42);
+  line-height: 1.65;
+}
+
+/* Colored sparkle bullet for unordered lists in chat replies */
+.chat-prose ul > li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+.chat-prose ul > li::before {
+  content: "✦";
+  position: absolute;
+  left: 0.25rem;
+  top: 0;
+  color: #6366f1;
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+/* Nested list adjustments */
+.chat-prose ul ul,
+.chat-prose ul ol,
+.chat-prose ol ul,
+.chat-prose ol ol {
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Number markers in nested ordered lists get a slightly different color */
+.chat-prose ol > li::marker {
+  color: #2563eb;
+}
