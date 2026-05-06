@@ -4,7 +4,7 @@ import { getSession } from "@/lib/auth";
 import { chatMessageSchema } from "@/lib/validation";
 import { generateAssistantReply, isAiConfigured } from "@/lib/ai";
 import { canSendMessage } from "@/lib/quota";
-import { storeImage } from "@/lib/imageStore";
+import { storeImage, imageDisplayUrl, type StoredImage } from "@/lib/imageStore";
 
 export async function GET() {
   const session = await getSession();
@@ -51,8 +51,8 @@ export async function POST(request: Request) {
 
   const { content, images, mode } = parsed.data;
 
-  // Persist incoming images to disk; DB just stores their filenames + types.
-  const storedImages: { filename: string; mediaType: string }[] = [];
+  // Persist incoming images. Disk-backed in dev, inline base64 on serverless.
+  const storedImages: StoredImage[] = [];
   for (const img of images) {
     try {
       const stored = await storeImage({
@@ -106,7 +106,8 @@ export async function POST(request: Request) {
   return NextResponse.json({
     userMessage,
     assistantMessage,
-    storedImages, // so the client can switch to URL-based display immediately
+    // Display URLs (may be /api/images/... for disk or data:... for inline)
+    storedImageUrls: storedImages.map((i) => imageDisplayUrl(i)),
   });
 }
 

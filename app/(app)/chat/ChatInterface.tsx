@@ -159,10 +159,8 @@ export default function ChatInterface({
         setMessages((prev) => prev.filter((m) => m.id !== optimistic.id));
         setAttachments(sentAttachments);
       } else {
-        const storedUrls: string[] = Array.isArray(data.storedImages)
-          ? data.storedImages.map(
-              (s: { filename: string }) => `/api/images/${s.filename}`
-            )
+        const storedUrls: string[] = Array.isArray(data.storedImageUrls)
+          ? (data.storedImageUrls as string[])
           : optimistic.imageUrls;
         setMessages((prev) => [
           ...prev.filter((m) => m.id !== optimistic.id),
