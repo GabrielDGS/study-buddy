@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import ThemeToggleInline from "./ThemeToggle";
 
 // `beforeinstallprompt` is non-standard; declare its prompt() shape.
 type InstallPromptEvent = Event & {
@@ -98,20 +99,24 @@ export default function UserMenu({
       </button>
       {open && (
         <div
-          className="absolute right-0 mt-2 w-64 rounded-lg border border-slate-200 bg-white shadow-xl py-1 z-50"
+          className="absolute right-0 mt-2 w-64 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-xl py-1 z-50"
           role="menu"
         >
-          <div className="px-3 py-2.5 border-b border-slate-100">
-            <div className="text-sm font-semibold text-slate-900 truncate">
+          <div className="px-3 py-2.5 border-b border-slate-100 dark:border-slate-700">
+            <div className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
               {name}
             </div>
-            <div className="text-xs text-slate-500 truncate">{email}</div>
+            <div className="text-xs text-slate-500 dark:text-slate-400 truncate">
+              {email}
+            </div>
           </div>
+
+          <ThemeToggleInline />
 
           {installEvent && (
             <button
               onClick={install}
-              className="w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-brand-50 flex items-center gap-2"
+              className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-brand-50 dark:hover:bg-brand-950/40 flex items-center gap-2"
               role="menuitem"
             >
               <span aria-hidden>📲</span> Install app
@@ -119,8 +124,8 @@ export default function UserMenu({
           )}
 
           {!installEvent && iosLikely && (
-            <div className="px-3 py-2 text-xs text-slate-600 bg-slate-50 border-t border-slate-100">
-              <div className="font-medium text-slate-800 mb-0.5">
+            <div className="px-3 py-2 text-xs text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-800 border-t border-slate-100 dark:border-slate-700">
+              <div className="font-medium text-slate-800 dark:text-slate-200 mb-0.5">
                 📲 Install on iOS
               </div>
               Tap the share button{" "}
@@ -130,14 +135,14 @@ export default function UserMenu({
           )}
 
           {installed && (
-            <div className="px-3 py-2 text-xs text-emerald-700 bg-emerald-50 border-t border-slate-100">
+            <div className="px-3 py-2 text-xs text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border-t border-slate-100 dark:border-slate-700">
               ✓ App installed
             </div>
           )}
 
           <button
             onClick={logout}
-            className="w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 flex items-center gap-2 border-t border-slate-100"
+            className="w-full text-left px-3 py-2 text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 flex items-center gap-2 border-t border-slate-100 dark:border-slate-700"
             role="menuitem"
           >
             <span aria-hidden>🚪</span> Log out

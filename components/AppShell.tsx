@@ -13,12 +13,16 @@ export default function AppShell({
   userEmail,
   streakDays,
   isActiveToday,
+  freezesAvailable,
+  freezeJustUsed,
 }: {
   children: React.ReactNode;
   userName: string;
   userEmail: string;
   streakDays: number;
   isActiveToday: boolean;
+  freezesAvailable: number;
+  freezeJustUsed: boolean;
 }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
@@ -51,15 +55,17 @@ export default function AppShell({
       <Sidebar
         streakDays={streakDays}
         isActiveToday={isActiveToday}
+        freezesAvailable={freezesAvailable}
+        freezeJustUsed={freezeJustUsed}
         drawerOpen={drawerOpen}
         onCloseDrawer={() => setDrawerOpen(false)}
       />
 
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 md:h-16 px-4 md:px-8 flex items-center justify-between border-b border-slate-200/70 bg-white/70 backdrop-blur-md sticky top-0 z-20">
+        <header className="h-14 md:h-16 px-4 md:px-8 flex items-center justify-between border-b border-slate-200/70 dark:border-slate-700/70 bg-white/70 dark:bg-slate-900/70 backdrop-blur-md sticky top-0 z-20">
           <div className="flex items-center gap-3 min-w-0">
             <button
-              className="md:hidden -ml-1 h-10 w-10 inline-flex items-center justify-center rounded-lg text-slate-700 hover:bg-slate-100 active:scale-95 transition-transform"
+              className="md:hidden -ml-1 h-10 w-10 inline-flex items-center justify-center rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition-transform"
               onClick={() => setDrawerOpen(true)}
               aria-label="Open menu"
             >
@@ -79,9 +85,11 @@ export default function AppShell({
                 <line x1="4" y1="18" x2="20" y2="18" />
               </svg>
             </button>
-            <div className="text-sm md:text-base text-slate-500 truncate">
+            <div className="text-sm md:text-base text-slate-500 dark:text-slate-400 truncate">
               <span className="hidden sm:inline">Welcome back, </span>
-              <span className="text-slate-900 font-semibold">{userName}</span>
+              <span className="text-slate-900 dark:text-slate-100 font-semibold">
+                {userName}
+              </span>
             </div>
           </div>
           <UserMenu name={userName} email={userEmail} />

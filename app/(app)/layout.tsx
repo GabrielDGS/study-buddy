@@ -31,6 +31,8 @@ export default async function AppLayout({
       userEmail={user.email}
       streakDays={streak.streakDays}
       isActiveToday={streak.isActiveToday}
+      freezesAvailable={streak.freezesAvailable}
+      freezeJustUsed={streak.freezeJustUsed}
     >
       {children}
     </AppShell>

@@ -9,6 +9,10 @@
   --foreground: 15 23 42;
 }
 
+.dark {
+  --foreground: 226 232 240;
+}
+
 html,
 body {
   height: 100%;
@@ -38,6 +42,27 @@ body {
     linear-gradient(135deg, #eef2ff 0%, #f5f3ff 50%, #fdf2f8 100%);
   background-attachment: fixed;
   min-height: 100vh;
+  transition: background-color 200ms ease;
+}
+
+.dark body {
+  background:
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(99, 102, 241, 0.18) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(236, 72, 153, 0.14) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      rgba(20, 184, 166, 0.10) 0%,
+      transparent 45%
+    ),
+    linear-gradient(135deg, #0b1023 0%, #14102a 50%, #1f0d22 100%);
 }
 
 /* Smooth, lively scaling on every interactive element */
@@ -57,10 +82,13 @@ body {
   .btn-secondary {
     @apply btn bg-white border border-slate-200 text-slate-700 shadow-sm
       hover:bg-white hover:border-brand-300 hover:text-brand-700
-      focus-visible:ring-brand-500;
+      focus-visible:ring-brand-500
+      dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200
+      dark:hover:bg-slate-700 dark:hover:border-brand-600 dark:hover:text-brand-300;
   }
   .btn-ghost {
-    @apply btn text-slate-600 hover:bg-white/70 focus-visible:ring-brand-500;
+    @apply btn text-slate-600 hover:bg-white/70 focus-visible:ring-brand-500
+      dark:text-slate-300 dark:hover:bg-slate-800/70;
   }
 
   .input {
@@ -68,18 +96,22 @@ body {
       text-sm shadow-sm placeholder:text-slate-400
       transition-colors duration-150
       focus:border-brand-500 focus:bg-white focus:outline-none
-      focus:ring-2 focus:ring-brand-200;
+      focus:ring-2 focus:ring-brand-200
+      dark:bg-slate-800/80 dark:border-slate-700 dark:text-slate-100
+      dark:placeholder:text-slate-500
+      dark:focus:bg-slate-800 dark:focus:border-brand-500 dark:focus:ring-brand-900/50;
   }
   .label {
-    @apply mb-1.5 block text-sm font-medium text-slate-700;
+    @apply mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300;
   }
 
   .card {
     @apply rounded-xl border border-slate-200/80 bg-white/85 backdrop-blur-sm
-      shadow-sm transition-shadow duration-200;
+      shadow-sm transition-shadow duration-200
+      dark:border-slate-700/60 dark:bg-slate-900/75;
   }
   .card-interactive {
-    @apply card hover:shadow-md hover:border-brand-200;
+    @apply card hover:shadow-md hover:border-brand-200 dark:hover:border-brand-600;
   }
 
   /* Tab links / nav items get the same lively scale */
@@ -90,7 +122,8 @@ body {
   }
   .nav-link-idle {
     @apply nav-link text-slate-700 hover:bg-white hover:text-brand-700
-      hover:shadow-sm;
+      hover:shadow-sm
+      dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-brand-300;
   }
   .nav-link-active {
     @apply nav-link bg-gradient-to-br from-brand-500 to-brand-600 text-white
@@ -111,6 +144,10 @@ body {
   font-size: 0.9rem;
   color: rgb(15 23 42);
   line-height: 1.65;
+}
+
+.dark .chat-prose {
+  color: rgb(226 232 240);
 }
 
 /* Colored sparkle bullet for unordered lists in chat replies */
@@ -141,4 +178,7 @@ body {
 /* Number markers in nested ordered lists get a slightly different color */
 .chat-prose ol > li::marker {
   color: #2563eb;
+}
+.dark .chat-prose ol > li::marker {
+  color: #60a5fa;
 }
