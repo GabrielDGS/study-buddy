@@ -139,6 +139,36 @@ body {
   }
 }
 
+/* ────────────────────────────────────────────────────────────────────────── */
+/* Dark-mode fallback overrides.
+   Many components were written with hardcoded `text-slate-X` and `bg-white`
+   classes assuming light mode. These rules remap those colors to readable
+   dark equivalents whenever .dark is on <html>. Component-level `dark:X`
+   utility classes (which Tailwind generates with the same specificity but
+   later in the cascade) still take precedence where they're set. */
+.dark .text-slate-900 { color: rgb(241 245 249); }
+.dark .text-slate-800 { color: rgb(226 232 240); }
+.dark .text-slate-700 { color: rgb(203 213 225); }
+.dark .text-slate-600 { color: rgb(148 163 184); }
+.dark .text-slate-500 { color: rgb(148 163 184); }
+.dark .text-slate-400 { color: rgb(100 116 139); }
+
+.dark .border-slate-200 { border-color: rgb(51 65 85); }
+.dark .border-slate-100 { border-color: rgb(51 65 85); }
+
+.dark .bg-slate-50  { background-color: rgb(30 41 59); }
+.dark .bg-slate-100 { background-color: rgb(30 41 59); }
+
+.dark .bg-white      { background-color: rgb(15 23 42); }
+.dark .bg-white\/95  { background-color: rgb(15 23 42 / 0.95); }
+.dark .bg-white\/90  { background-color: rgb(15 23 42 / 0.90); }
+.dark .bg-white\/85  { background-color: rgb(15 23 42 / 0.85); }
+.dark .bg-white\/80  { background-color: rgb(15 23 42 / 0.80); }
+.dark .bg-white\/70  { background-color: rgb(15 23 42 / 0.70); }
+.dark .bg-white\/60  { background-color: rgb(15 23 42 / 0.60); }
+.dark .bg-white\/50  { background-color: rgb(15 23 42 / 0.50); }
+.dark .bg-white\/40  { background-color: rgb(15 23 42 / 0.40); }
+
 /* Custom styling for AI chat markdown */
 .chat-prose {
   font-size: 0.9rem;
