@@ -61,7 +61,7 @@ export default async function DashboardPage() {
   return (
     <div className="p-4 md:p-8 max-w-6xl mx-auto space-y-6 md:space-y-8">
       <section>
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
           Hi, {user.name.split(" ")[0]}{" "}
           <span className="inline-block animate-pop-in">👋</span>
         </h1>

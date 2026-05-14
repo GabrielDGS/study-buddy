@@ -21,7 +21,7 @@ export default async function SchedulePage() {
     <div className="p-4 md:p-8 max-w-6xl mx-auto">
       <div className="mb-5 md:mb-6 flex items-start justify-between gap-3 flex-wrap">
         <div>
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
             📅 Schedule
           </h1>
           <p className="text-base md:text-lg text-slate-600 mt-1.5 md:mt-2">

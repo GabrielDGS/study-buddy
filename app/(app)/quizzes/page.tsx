@@ -26,7 +26,7 @@ export default async function PracticePage({
   return (
     <div className="p-4 md:p-8 max-w-5xl mx-auto space-y-5 md:space-y-6">
       <div>
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
           📝 Practice
         </h1>
         <p className="text-base md:text-lg text-slate-600 mt-1.5 md:mt-2">
